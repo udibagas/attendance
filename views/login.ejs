@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <style>
+      * {
+        font-size: 0.9rem;
+      }
+
+      form {
+        width: 350px;
+        margin: 150px auto 0;
+        text-align: center;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        padding: 30px;
+      }
+    </style>
+    <title>Attendance</title>
+  </head>
+  <body>
+    <form method="post">
+      <h2 class="mb-5">Attendance</h2>
+
+      <% if (message) { %>
+      <div class="alert alert-danger"><%= message %></div>
+      <% } %>
+
+      <div class="mb-4">
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="Email"
+        />
+      </div>
+
+      <div class="mb-4">
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          name="password"
+          placeholder="Password"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary mb-4" style="width: 100%">
+        Login
+      </button>
+    </form>
+  </body>
+</html>

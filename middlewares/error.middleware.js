@@ -1,3 +1,4 @@
-module.exports = (err, req, res) => {
-  console.log(err.message);
+module.exports = (err, req, res, next) => {
+  console.log(err);
+  res.send(err.message);
 };

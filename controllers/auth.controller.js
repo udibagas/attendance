@@ -1,12 +1,12 @@
 const { User } = require("../models");
 
 module.exports = {
-  async login(req, res) {
+  async showLoginForm(req, res) {
     const { message } = req.query;
     res.render("login", { message });
   },
 
-  async doLogin(req, res) {
+  async login(req, res) {
     const { email, password } = req.body;
 
     try {
