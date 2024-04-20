@@ -10,6 +10,6 @@ const router = require("express").Router();
 router
   .get("/login", showLoginForm)
   .post("/login", login)
-  .post("/logout", authMiddleware, logout);
+  .get("/logout", authMiddleware, logout);
 
 module.exports = router;

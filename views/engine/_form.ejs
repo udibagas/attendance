@@ -1,0 +1,61 @@
+<div
+  class="modal fade"
+  id="formModal"
+  tabindex="-1"
+  aria-labelledby="formModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="machine-form" novalidate>
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="formModalLabel">Tambah Mesin</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-outline mb-4">
+            <label for="name" class="form-label">Nama Mesin</label>
+            <input type="hidden" id="id" name="id" />
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+            <div class="invalid-feedback" id="name-validation"></div>
+          </div>
+
+          <div class="form-outline mb-4">
+            <label for="ip_address" class="form-label">Alamat IP</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ip_address"
+              name="ip_address"
+              required
+            />
+            <div class="invalid-feedback" id="ip_address-validation"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+          >
+            Batal
+          </button>
+          <button class="btn btn-primary" type="submit" id="upload-btn">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
