@@ -13,6 +13,7 @@ function openForm(data = {}) {
       input.value = data[key];
     }
 
+    // reset validation
     const validation = document.querySelector(`#${key}-validation`);
     if (validation) {
       input.classList.remove("is-valid", "is-invalid");

@@ -6,5 +6,6 @@ router.use(require("./auth"));
 router.use(authMiddleware);
 router.get("/", home);
 router.use("/machines", require("./machines"));
+router.use("/employees", require("./employee"));
 
 module.exports = router;

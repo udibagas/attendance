@@ -19,6 +19,7 @@
     "mysql2": "^3.9.6",
     "node-cron": "^3.0.3",
     "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "xml2json": "^0.12.0"
   }
 }

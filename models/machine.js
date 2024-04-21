@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const fetch = require("cross-fetch");
+const parser = require("xml2json");
 module.exports = (sequelize, DataTypes) => {
   class Machine extends Model {
     /**
@@ -9,6 +11,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    getLog() {
+      const payload = `
+        <GetAttLog>
+          <ArgComKey xsi:type="xsd:integer">0</ArgComKey>
+          <Arg>
+            <PIN xsi:type="xsd:integer">All</PIN>
+          </Arg>
+        </GetAttLog>`;
+
+      fetch("/iWsService", {
+        method: "POST",
+        body: payload,
+        headers: {
+          "Content-Type": "text/xml",
+          // 'Content-Length': payload.length,
+        },
+      })
+        .then((res) => res.xml())
+        .then((xml) => {
+          const parsed = parser.toJson(xml);
+          parsed.forEach((el) => {
+            const { PIN, DateTime, Verified, Status, WorkCode } = el;
+            // TODO: save to DB
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
   Machine.init(
