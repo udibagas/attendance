@@ -1,8 +1,9 @@
-function openForm(data = {}) {
-  const modal = new bootstrap.Modal("#formModal");
-  const formTitle = document.querySelector("#formModalLabel");
-  formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
+const form = document.querySelector("form");
+const modal = new bootstrap.Modal("#formModal");
+const formTitle = document.querySelector("#formModalLabel");
 
+function openForm(data = {}) {
+  formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
   const inputElement = {};
 
   for (let key in data) {
@@ -41,18 +42,22 @@ function save(url, method, data = {}) {
 
 function showValidationError(errors) {
   form.classList.add("was-validated");
-  const validation = {};
-  // TODO:
-  validation.name = document.querySelector("#name-validation");
-  validation.ip_address = document.querySelector("#ip_address-validation");
-
-  for (let k in validation) {
-    if (errors[k]) {
-      inputElement[k].classList.add("is-invalid");
-      validation[k].innerText = errors[k].join(", ");
-    } else {
-      inputElement[k].classList.add("is-valid");
-      validation[k].innerText = "";
+  for (let key in form.elements) {
+    const el = form.elements.item(key);
+    const inputs = ["INPUT", "TEXTAREA", "SELECT"];
+    if (inputs.includes(el.tagName)) {
+      const validation = document.querySelector(`#${el.name}-validation`);
+      if (errors[el.name]) {
+        el.classList.add("is-invalid");
+        if (validation) {
+          validation.innerText = errors[el.name].join(", ");
+        }
+      } else {
+        el.classList.add("is-valid");
+        if (validation) {
+          validation.innerText = "";
+        }
+      }
     }
   }
 }
@@ -100,7 +105,6 @@ document.querySelectorAll(".btn-delete").forEach((el) => {
 });
 
 // CREATE & UPDATE
-const form = document.querySelector("form");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(form);
