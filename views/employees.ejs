@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="my-3">Karyawan</h1>
+
+    <form class="row g-3">
+      <div class="col-auto">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Cari Karyawan"
+            name="search"
+            value="<%= query.search || '' %>"
+          />
+          <a class="btn btn-outline-secondary" href="/employees"> X </a>
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Cari</button>
+      </div>
+    </form>
+  </div>
+
+  <% const columns = { PIN: 'PIN', name: 'Nama'} %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>No</th>
+        <% for (let col in columns) { %>
+        <th>
+          <% if (query.sort_column == col && query.sort_order == 'asc') { %>
+          &darr; <% } %> <% if (query.sort_column == col && query.sort_order ==
+          'desc') { %> &uarr; <% } %>
+          <a
+            class="text-decoration-none"
+            href="?sort_column=<%= col %>&sort_order=<%= query.sort_column == col && query.sort_order == 'asc' ? 'desc' : 'asc' %>&status=<%= query.status %>"
+          >
+            <%= columns[col] %>
+          </a>
+        </th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.rows.forEach((el, index) => { %>
+      <tr>
+        <td><%= ((query.page - 1) * 15) + index + 1 %></td>
+        <td><%= el.PIN %></td>
+        <td><%= el.name %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <div class="d-flex align-items-center justify-content-between">
+    <nav aria-label="pagination">
+      <ul class="pagination">
+        <li class="page-item <%= query.page == 1 ? 'disabled' : '' %>">
+          <a
+            class="page-link"
+            href="/employees?page=<%= +query.page - 1  %>&status=<%= query.status %>&search=<%= query.search %>&sort_column=<%= query.sort_column %>&sort_order=<%= query.sort_order %>"
+            >&laquo; Prev</a
+          >
+        </li>
+        <% for (let i = 1; i <= data.totalPage ; i++) { %>
+        <!--
+      <li class="page-item <%= query.page == i ? 'active' : '' %>">
+        <a
+          class="page-link"
+          href="/employees?page=<%= i  %>&status=<%= query.status %>&search=<%= query.search %>"
+        >
+          <%= i %>
+        </a>
+      </li>
+      -->
+        <% } %>
+
+        <li
+          class="page-item <%= query.page >= data.totalPage ? 'disabled' : '' %>"
+        >
+          <a
+            class="page-link"
+            href="/employees?page=<%= +query.page + 1  %>&search=<%= query.search %>&sort_column=<%= query.sort_column %>&sort_order=<%= query.sort_order %>"
+          >
+            Next &raquo;</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div>
+      Page <%= query.page.toLocaleString('id-ID') %> of <%=
+      data.totalPage.toLocaleString('id-ID') %> (<%=
+      data.count.toLocaleString('id-ID') %> rows)
+    </div>
+  </div>
+</div>
