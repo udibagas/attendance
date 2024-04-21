@@ -9,6 +9,7 @@ module.exports = {
     database: "zawata_attendance",
     host: "127.0.0.1",
     dialect: "mysql",
+    logging: false,
   },
   production: {
     username: DB_USER,
@@ -16,5 +17,6 @@ module.exports = {
     database: DB_NAME,
     host: DB_HOST,
     dialect: "mysql",
+    logging: false,
   },
 };
