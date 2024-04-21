@@ -4,9 +4,12 @@ function openForm(data = {}) {
   formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
 
   const inputElement = {};
+
   for (let key in data) {
-    inputElement[key] = document.querySelector(`#${key}`);
-    inputElement[key].value = data.id;
+    inputElement[key] = document.querySelector(`[name=${key}]`);
+    if (inputElement[key]) {
+      inputElement[key].value = data[key];
+    }
   }
 
   modal.show();
@@ -64,7 +67,20 @@ document.querySelector("#btn-add").addEventListener("click", (e) => {
 document.querySelectorAll(".btn-edit").forEach((el) => {
   el.addEventListener("click", (e) => {
     e.preventDefault();
-    openForm(el.dataset);
+    fetch(e.target.href, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        openForm(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 });
 
@@ -96,9 +112,9 @@ form.addEventListener("submit", (e) => {
   let method = "POST";
   let url = e.target.action;
 
-  if (data.id) {
+  if (payload.id) {
     method = "PUT";
-    url += `/${data.id}`;
+    url += `/${payload.id}`;
   }
 
   save(url, method, payload);
