@@ -1,9 +1,10 @@
 const form = document.querySelector("form");
-const modal = new bootstrap.Modal("#formModal");
-const formTitle = document.querySelector("#formModalLabel");
 
 function openForm(data = {}) {
+  const modal = new bootstrap.Modal("#formModal");
+  const formTitle = document.querySelector("#formModalLabel");
   formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
+  form.classList.remove("was-validated");
 
   for (let key in data) {
     const input = document.querySelector(`[name=${key}]`);
@@ -17,7 +18,7 @@ function openForm(data = {}) {
     }
   }
 
-  // TODO: reset validation
+  // TODO: reset form when add
 
   modal.show();
 }
