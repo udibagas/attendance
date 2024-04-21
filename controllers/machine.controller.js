@@ -15,6 +15,7 @@ module.exports = {
   },
 
   async create(req, res, next) {
+    console.log(req.body);
     try {
       const machine = await Machine.create(req.body);
       res.json({ message: "Data berhasil ditambahkan", data: machine });

@@ -5,7 +5,7 @@
     Tambah Mesin Absensi
   </button>
 
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>No.</th>
@@ -38,8 +38,7 @@
           </a>
           <a
             class="btn btn-danger btn-sm btn-delete"
-            data-id="<%= id %>"
-            href="#"
+            href="/machines/<%= id %>"
           >
             Hapus
           </a>
@@ -52,109 +51,4 @@
   <%- include('_form') %>
 </div>
 
-<script>
-  const inputElement = {};
-  inputElement.id = document.querySelector("#id");
-  inputElement.name = document.querySelector("#name");
-  inputElement.ip_address = document.querySelector("#ip_address");
-
-  const modal = new bootstrap.Modal("#formModal");
-  const addBtn = document.querySelector("#btn-add");
-  const form = document.querySelector("#machine-form");
-
-  function openForm(data) {
-    const formTitle = document.querySelector("#formModalLabel");
-    const { id = "", name = "", ip_address = "" } = data;
-    formTitle.innerText = id ? "Edit Mesin Absensi" : "Tambah Mesin Absensi";
-    inputElement.id.value = id;
-    inputElement.name.value = name;
-    inputElement.ip_address.value = ip_address;
-    modal.show();
-  }
-
-  function save({ id, name, ip_address }) {
-    const url = id ? `/machines/${id}` : "/machines";
-    const method = id ? "PUT" : "POST";
-
-    fetch(url, {
-      method,
-      body: JSON.stringify({ name, ip_address }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then(async (res) => {
-        if (!res.ok) throw res;
-        const { message, data } = await res.json();
-        window.location.reload();
-      })
-      .catch(async (res) => {
-        console.log(res);
-        if (res.status == 400) {
-          const { errors } = await res.json();
-          showValidationError(errors);
-        }
-      });
-  }
-
-  function showValidationError(errors) {
-    form.classList.add("was-validated");
-    const validation = {};
-    validation.name = document.querySelector("#name-validation");
-    validation.ip_address = document.querySelector("#ip_address-validation");
-
-    for (let k in validation) {
-      if (errors[k]) {
-        inputElement[k].classList.add("is-invalid");
-        validation[k].innerText = errors[k].join(", ");
-      } else {
-        inputElement[k].classList.add("is-valid");
-        validation[k].innerText = "";
-      }
-    }
-  }
-
-  // ADD
-  addBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    openForm({});
-  });
-
-  // EDIT
-  document.querySelectorAll(".btn-edit").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      openForm(el.dataset);
-    });
-  });
-
-  // DELETE
-  document.querySelectorAll(".btn-delete").forEach((el) => {
-    el.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const { id } = el.dataset;
-      if (confirm("Anda yakin akan menghapus gate ini?")) {
-        try {
-          await fetch(`/machines/${id}`, { method: "DELETE" });
-          window.location.reload();
-        } catch (error) {
-          console.log(error.message);
-        }
-      }
-    });
-  });
-
-  // CREATE & UPDATE
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const { id, name, ip_address } = inputElement;
-    const payload = {
-      id: id.value || null,
-      name: name.value,
-      ip_address: ip_address.value,
-    };
-
-    save(payload);
-  });
-</script>
+<script src="/js/app.js"></script>

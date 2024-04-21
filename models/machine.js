@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Machine extends Model {
     /**
@@ -13,13 +11,33 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Machine.init({
-    name: DataTypes.STRING,
-    ip_address: DataTypes.STRING,
-    status: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Machine',
-  });
+  Machine.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notNull: { msg: "Nama harus diisi" },
+          notEmpty: { msg: "Nama harus diisi" },
+        },
+      },
+      ip_address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notNull: { msg: "Alamat IP harus diisi" },
+          notEmpty: { msg: "Alamat IP harus diisi" },
+          isIP: { msg: "Alamat IP tidak sesuai" },
+        },
+      },
+      status: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: "Machine",
+    }
+  );
   return Machine;
 };
