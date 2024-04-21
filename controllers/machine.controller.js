@@ -14,8 +14,18 @@ module.exports = {
     }
   },
 
+  async show(req, res, next) {
+    const { id } = req.params;
+    try {
+      const machine = await Machine.findByPk(id);
+      if (!machine) throw new Error("Data not found");
+      res.json(machine);
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async create(req, res, next) {
-    console.log(req.body);
     try {
       const machine = await Machine.create(req.body);
       res.json({ message: "Data berhasil ditambahkan", data: machine });
