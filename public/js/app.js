@@ -4,14 +4,20 @@ const formTitle = document.querySelector("#formModalLabel");
 
 function openForm(data = {}) {
   formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
-  const inputElement = {};
 
   for (let key in data) {
-    inputElement[key] = document.querySelector(`[name=${key}]`);
-    if (inputElement[key]) {
-      inputElement[key].value = data[key];
+    const input = document.querySelector(`[name=${key}]`);
+    if (input) {
+      input.value = data[key];
+    }
+
+    const validation = document.querySelector(`#${key}-validation`);
+    if (validation) {
+      input.classList.remove("is-valid", "is-invalid");
     }
   }
+
+  // TODO: reset validation
 
   modal.show();
 }
@@ -96,6 +102,7 @@ document.querySelectorAll(".btn-delete").forEach((el) => {
     if (confirm("Anda yakin akan menghapus data ini?")) {
       try {
         await fetch(e.target.href, { method: "DELETE" });
+        // TODO: reload data
         window.location.reload();
       } catch (error) {
         console.log(error.message);
