@@ -5,6 +5,7 @@ function openForm(data = {}) {
   const formTitle = document.querySelector("#formModalLabel");
   formTitle.innerText = id ? `Edit Data` : `Tambah Data`;
   form.classList.remove("was-validated");
+  form.reset();
 
   for (let key in data) {
     const input = document.querySelector(`[name=${key}]`);
@@ -17,8 +18,6 @@ function openForm(data = {}) {
       input.classList.remove("is-valid", "is-invalid");
     }
   }
-
-  // TODO: reset form when add
 
   modal.show();
 }
